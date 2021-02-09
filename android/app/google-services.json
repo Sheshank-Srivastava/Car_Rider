@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "250754696730",
+    "firebase_url": "https://greentaxi-9d858-default-rtdb.firebaseio.com",
+    "project_id": "greentaxi-9d858",
+    "storage_bucket": "greentaxi-9d858.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250754696730:android:f535efb677a19747ddf3a3",
+        "android_client_info": {
+          "package_name": "io.github.sheshanksrivastava.cab_rider"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250754696730-batbrhdl6mces4aiiq1k2a25i4054h43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEXAnF70OJCrEukS1nS3oTZ_bfIPi37vg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250754696730-batbrhdl6mces4aiiq1k2a25i4054h43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
