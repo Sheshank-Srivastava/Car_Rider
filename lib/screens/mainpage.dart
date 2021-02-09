@@ -22,7 +22,7 @@ class _MainPageState extends State<MainPage> {
           height: 50,
           minWidth: 300,
           color: Colors.green,
-          child: Text('Test Connection'),
+          child: Text('Test Connection',),
         ),
       ),
     );
