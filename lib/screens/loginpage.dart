@@ -1,14 +1,31 @@
 import 'package:cab_rider/brand_colors.dart';
+import 'package:cab_rider/screens/mainpage.dart';
 import 'package:cab_rider/widgets/TaxiButton.dart';
+import 'package:connectivity/connectivity.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_rider/screens/registrationpage.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   static const String id = 'login';
+
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -36,9 +53,10 @@ class LoginPage extends StatelessWidget {
                   child: Column(
                     children: [
                       TextField(
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                            hintText: 'Email Address',
+                            labelText: 'Email Address',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
                                 TextStyle(color: Colors.grey, fontSize: 10.0)),
@@ -46,9 +64,10 @@ class LoginPage extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       TextField(
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
-                            hintText: 'Password',
+                            labelText: 'Password',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
                                 TextStyle(color: Colors.grey, fontSize: 10.0)),
@@ -60,8 +79,24 @@ class LoginPage extends StatelessWidget {
                       TaxiButton(
                           color: BrandColors.colorGreen,
                           title: 'LOGIN',
-                          onPressed: () => {
-                            Navigator.pushNamedAndRemoveUntil(context, RegistrationPage.id, (route) => false)
+                          onPressed: () async {
+                            var connectivityResult =
+                                await Connectivity().checkConnectivity();
+                            if (connectivityResult !=
+                                    ConnectivityResult.mobile &&
+                                connectivityResult != ConnectivityResult.wifi) {
+                              showSnackBar("No internet connection");
+                            }
+                            if (!emailController.text.contains('@')) {
+                              showSnackBar('Please provide valid email');
+                              return;
+                            }
+                            if (passwordController.text.length < 8) {
+                              showSnackBar(
+                                  'Please keep password more than 8 characters');
+                              return;
+                            }
+                            loginUser();
                           })
                     ],
                   ),
@@ -80,5 +115,30 @@ class LoginPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void showSnackBar(String s) {
+    var snackbar = SnackBar(content: Text(s));
+    scaffoldKey.currentState.showSnackBar(snackbar);
+  }
+
+  void loginUser() async {
+    final UserCredential user = await _auth.signInWithEmailAndPassword(
+        email: emailController.text, password: passwordController.text);
+
+    if (user == null) {
+      showSnackBar('Invalid email/password');
+      return;
+    }
+    DatabaseReference userRef =
+        FirebaseDatabase.instance.reference().child('user/${user.user.uid}');
+    userRef.once().then((DataSnapshot snapshot) {
+      if (snapshot.value != null) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, MainPage.id, (route) => false);
+      } else {
+        showSnackBar('User not exists');
+      }
+    });
   }
 }

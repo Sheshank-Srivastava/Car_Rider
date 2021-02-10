@@ -111,7 +111,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                            hintText: 'Email Address',
+                            labelText: 'Email Address',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
                             TextStyle(color: Colors.grey, fontSize: 10.0)),
@@ -125,7 +125,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         controller: phoneController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
-                            hintText: 'Mobile no.',
+                            labelText: 'Mobile no.',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
                             TextStyle(color: Colors.grey, fontSize: 10.0)),
@@ -138,7 +138,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         obscureText: true,
                         controller: passwordController,
                         decoration: InputDecoration(
-                            hintText: 'Password',
+                            labelText: 'Password',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
                             TextStyle(color: Colors.grey, fontSize: 10.0)),
