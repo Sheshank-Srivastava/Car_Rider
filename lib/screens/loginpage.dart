@@ -1,7 +1,11 @@
 import 'package:cab_rider/brand_colors.dart';
+import 'package:cab_rider/widgets/TaxiButton.dart';
 import 'package:flutter/material.dart';
+import 'package:cab_rider/screens/registrationpage.dart';
 
 class LoginPage extends StatelessWidget {
+  static const String id = 'login';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +40,8 @@ class LoginPage extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: 'Email Address',
                             labelStyle: TextStyle(fontSize: 14.0),
-                            hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
                         style: TextStyle(fontSize: 14),
                       ),
                       SizedBox(height: 10),
@@ -45,35 +50,30 @@ class LoginPage extends StatelessWidget {
                         decoration: InputDecoration(
                             hintText: 'Password',
                             labelStyle: TextStyle(fontSize: 14.0),
-                            hintStyle: TextStyle(color: Colors.grey, fontSize: 10.0)),
+                            hintStyle:
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
                         style: TextStyle(fontSize: 14),
                       ),
                       SizedBox(
                         height: 40,
                       ),
-                      RaisedButton(
-                        onPressed: () {},
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(25)),
-                        color: BrandColors.colorGreen,
-                        textColor: Colors.white,
-                        child: Container(
-                          height: 50,
-                          child: Center(
-                            child: Text(
-                              'LOGIN',
-                              style:
-                                  TextStyle(fontSize: 18, fontFamily: 'Brand-Bold'),
-                            ),
-                          ),
-                        ),
-                      )
+                      TaxiButton(
+                          color: BrandColors.colorGreen,
+                          title: 'LOGIN',
+                          onPressed: () => {
+                            Navigator.pushNamedAndRemoveUntil(context, RegistrationPage.id, (route) => false)
+                          })
                     ],
                   ),
                 ),
-                FlatButton(onPressed: (){
 
-                },child: Text('Don\'t have an account, sign up here')),
+                //Route to Signup/ Registration Page
+                FlatButton(
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, RegistrationPage.id, (route) => false);
+                    },
+                    child: Text('Don\'t have an account, sign up here')),
               ],
             ),
           ),
