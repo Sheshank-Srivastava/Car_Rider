@@ -1,5 +1,6 @@
 import 'package:cab_rider/brand_colors.dart';
 import 'package:cab_rider/screens/mainpage.dart';
+import 'package:cab_rider/widgets/ProgressDialog.dart';
 import 'package:cab_rider/widgets/TaxiButton.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,10 +23,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
   void showSnackBar(String title) {
     final snackBar = SnackBar(
         content: Text(
-          title,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 15.0),
-        ));
+      title,
+      textAlign: TextAlign.center,
+      style: TextStyle(fontSize: 15.0),
+    ));
     scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
@@ -40,21 +41,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
   var passwordController = TextEditingController();
 
   void registerUser() async {
-    final UserCredential user = await _auth.createUserWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text)
+    showDialog(
+        context: context,
+        builder: (BuildContext context) => ProgressDialog(
+              status: "Registering you...",
+            ),
+        barrierDismissible: false);
+    final UserCredential user = await _auth
+        .createUserWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text)
         .catchError((ex) {
+      Navigator.pop(context);
       PlatformException thisEx = ex;
       showSnackBar(thisEx.message);
     });
 
     if (user != null) {
-      DatabaseReference newUserRef = FirebaseDatabase.instance.reference()
-          .child('user/${user.user.uid}');
+      DatabaseReference newUserRef =
+          FirebaseDatabase.instance.reference().child('user/${user.user.uid}');
 
       Map userMap = {
-        'fullname':fullNameController.text,
+        'fullname': fullNameController.text,
         'email': emailController.text,
-        'phone':phoneController.text
+        'phone': phoneController.text
       };
 
       newUserRef.set(userMap);
@@ -63,7 +72,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   @override
-  Widget build(BuildContext context)  {
+  Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Colors.white,
@@ -100,7 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             labelText: 'Full name',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
-                            TextStyle(color: Colors.grey, fontSize: 10.0)),
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
                         style: TextStyle(fontSize: 14),
                       ),
 
@@ -114,7 +123,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             labelText: 'Email Address',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
-                            TextStyle(color: Colors.grey, fontSize: 10.0)),
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
                         style: TextStyle(fontSize: 14),
                       ),
 
@@ -128,7 +137,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             labelText: 'Mobile no.',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
-                            TextStyle(color: Colors.grey, fontSize: 10.0)),
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
                         style: TextStyle(fontSize: 14),
                       ),
 
@@ -141,7 +150,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                             labelText: 'Password',
                             labelStyle: TextStyle(fontSize: 14.0),
                             hintStyle:
-                            TextStyle(color: Colors.grey, fontSize: 10.0)),
+                                TextStyle(color: Colors.grey, fontSize: 10.0)),
                         style: TextStyle(fontSize: 14),
                       ),
 
@@ -153,10 +162,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           color: BrandColors.colorBlue,
                           title: 'REGISTER',
                           onPressed: () async {
+                            var connectivityResult =
+                                await Connectivity().checkConnectivity();
 
-                            var connectivityResult  = await Connectivity().checkConnectivity();
-
-                            if(connectivityResult!= ConnectivityResult.mobile&&connectivityResult!= ConnectivityResult.wifi){
+                            if (connectivityResult !=
+                                    ConnectivityResult.mobile &&
+                                connectivityResult != ConnectivityResult.wifi) {
                               showSnackBar('No internet connection');
                               return;
                             }

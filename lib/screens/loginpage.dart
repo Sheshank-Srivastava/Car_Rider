@@ -1,11 +1,13 @@
 import 'package:cab_rider/brand_colors.dart';
 import 'package:cab_rider/screens/mainpage.dart';
+import 'package:cab_rider/widgets/ProgressDialog.dart';
 import 'package:cab_rider/widgets/TaxiButton.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cab_rider/screens/registrationpage.dart';
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'login';
@@ -123,10 +125,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void loginUser() async {
-    final UserCredential user = await _auth.signInWithEmailAndPassword(
-        email: emailController.text, password: passwordController.text);
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) =>
+            ProgressDialog(status: 'Logging you in'));
+    final UserCredential user = await _auth
+        .signInWithEmailAndPassword(
+            email: emailController.text, password: passwordController.text)
+        .catchError((ex) {
+      Navigator.pop(context);
+      PlatformException thisEx = ex;
+      showSnackBar(thisEx.message);
+    });
 
     if (user == null) {
+      Navigator.pop(context);
       showSnackBar('Invalid email/password');
       return;
     }
@@ -137,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.pushNamedAndRemoveUntil(
             context, MainPage.id, (route) => false);
       } else {
+        Navigator.pop(context);
         showSnackBar('User not exists');
       }
     });
