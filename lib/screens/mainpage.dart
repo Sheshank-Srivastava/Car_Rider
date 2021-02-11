@@ -1,7 +1,9 @@
+import 'package:cab_rider/widgets/BrandDivider.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
+import 'package:cab_rider/brand_colors.dart';
 
 class MainPage extends StatefulWidget {
   static const String id = 'mainpage';
@@ -36,7 +38,7 @@ class _MainPageState extends State<MainPage> {
           right: 0,
           bottom: 0,
           child: Container(
-            height: 240,
+            height: 260,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
@@ -52,90 +54,151 @@ class _MainPageState extends State<MainPage> {
                 ]),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Nice to see you!',
-                    style: TextStyle(fontSize: 10.0),
-                  ),
-                  Text(
-                    'Where are you going',
-                    style: TextStyle(fontSize: 18.0, fontFamily: 'Brand-Bold'),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(4),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 5.0,
-                              spreadRadius: 0.5,
-                              offset: Offset(0.7, 0.7))
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.search,
-                            color: Colors.blueAccent,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Search Destiantion')
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4.0),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 5.0,
-                          spreadRadius: 0.2,
-                          offset: Offset(
-                            0.7,0.7
-                          )
-                        )
-                      ]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.home_outlined,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+              child: SingleChildScrollView(
+
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Nice to see you!',
+                          style: TextStyle(fontSize: 10.0),
+                        ),
+                        Text(
+                          'Where are you going',
+                          style:
+                              TextStyle(fontSize: 18.0, fontFamily: 'Brand-Bold'),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 5.0,
+                                    spreadRadius: 0.5,
+                                    offset: Offset(0.7, 0.7))
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
                               children: [
-                                Text('Home',style: TextStyle(fontFamily: 'Brand-Bold',fontSize: 14.0),),
-                                Text('how are you'),
+                                Icon(
+                                  Icons.search,
+                                  color: Colors.blueAccent,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text('Search Destiantion')
                               ],
                             ),
-                          ],
+                          ),
                         ),
-                      )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 5.0,
+                                      spreadRadius: 0.2,
+                                      offset: Offset(0.7, 0.7))
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.home_outlined,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Add Home',
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        'Your redidential address',
+                                        style: TextStyle(
+                                            fontSize: 11.0,
+                                            color: BrandColors.colorDimText),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
+                        SizedBox(
+                          height: 12,
+                        ),
+                        BrandDivider(),
+                        SizedBox(height:8),
+                        Container(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 5.0,
+                                      spreadRadius: 0.2,
+                                      offset: Offset(0.7, 0.7))
+                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.work_outline,
+                                    color: Colors.grey,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Add Work',
+                                      ),
+                                      SizedBox(
+                                        height: 3,
+                                      ),
+                                      Text(
+                                        'Your office address',
+                                        style: TextStyle(
+                                            fontSize: 11.0,
+                                            color: BrandColors.colorDimText),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
 
-                ],
               ),
             ),
           ),
